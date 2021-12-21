@@ -6,20 +6,22 @@ import {
   IResourceComponentsProps,
   getDefaultSortOrder,
   DateField,
-  Space,
-  EditButton,
-  DeleteButton,
-  useMany,
-  useSelect,
   TagField,
-  FilterDropdown,
-  Select,
-  ShowButton,
+  // Space,
+  // EditButton,
+  // DeleteButton,
+  // useMany,
+  // useSelect,
+  // FilterDropdown,
+  // Select,
+  // ShowButton,
 } from "@pankod/refine";
-import { IPost, ICategory } from "interfaces";
+import { ILeads } from "interfaces";
+import { useEffect } from "react";
+import axios from 'axios'
 
 export const PostList: React.FC<IResourceComponentsProps> = () => {
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorter } = useTable<ILeads>({
     initialSorter: [
       {
         field: "id",
@@ -28,19 +30,10 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
     ],
   });
 
-  const categoryIds =
-    tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data: categoriesData, isLoading } = useMany<ICategory>({
-    resource: "categories",
-    ids: categoryIds,
-    queryOptions: {
-      enabled: categoryIds.length > 0,
-    },
-  });
+  useEffect(() => {
+    console.log(axios.defaults.headers);
+  }, [])
 
-  const { selectProps: categorySelectProps } = useSelect<ICategory>({
-    resource: "categories",
-  });
 
   return (
     <List>
@@ -54,68 +47,46 @@ export const PostList: React.FC<IResourceComponentsProps> = () => {
           sorter
         />
         <Table.Column
-          dataIndex="title"
-          key="title"
-          title="Title"
+          dataIndex="name"
+          key="name"
+          title="Name"
           render={(value) => <TextField value={value} />}
-          defaultSortOrder={getDefaultSortOrder("title", sorter)}
+          defaultSortOrder={getDefaultSortOrder("name", sorter)}
           sorter
         />
         <Table.Column
-          dataIndex="status"
-          key="status"
-          title="Status"
+          dataIndex="occupation"
+          key="occupation"
+          title="Occupation"
           render={(value) => <TagField value={value} />}
-          defaultSortOrder={getDefaultSortOrder("status", sorter)}
+          defaultSortOrder={getDefaultSortOrder("occupation", sorter)}
           sorter
         />
         <Table.Column
-          dataIndex="createdAt"
-          key="createdAt"
-          title="Created At"
-          render={(value) => <DateField value={value} format="LLL" />}
-          defaultSortOrder={getDefaultSortOrder("createdAt", sorter)}
+          dataIndex="product_interest"
+          key="product_interest"
+          title="Product Interest"
+          render={(value) => <DateField value={value} />}
+          defaultSortOrder={getDefaultSortOrder("product_interest")}
           sorter
         />
         <Table.Column
-          dataIndex={["category", "id"]}
-          title="Category"
-          render={(value) => {
-            if (isLoading) {
-              return <TextField value="Loading..." />;
-            }
-
-            return (
-              <TextField
-                value={
-                  categoriesData?.data.find((item) => item.id === value)?.title
-                }
-              />
-            );
-          }}
-          filterDropdown={(props) => (
-            <FilterDropdown {...props}>
-              <Select
-                style={{ minWidth: 200 }}
-                mode="multiple"
-                placeholder="Select Category"
-                {...categorySelectProps}
-              />
-            </FilterDropdown>
-          )}
+          dataIndex="phone1"
+          key="phone1"
+          title="Phone"
+          render={(value) => <DateField value={value} />}
+          defaultSortOrder={getDefaultSortOrder("phone1")}
+          sorter
         />
-        <Table.Column<IPost>
-          title="Actions"
-          dataIndex="actions"
-          render={(_, record) => (
-            <Space>
-              <EditButton hideText size="small" recordItemId={record.id} />
-              <ShowButton hideText size="small" recordItemId={record.id} />
-              <DeleteButton hideText size="small" recordItemId={record.id} />
-            </Space>
-          )}
+        <Table.Column
+          dataIndex="postal_province_name"
+          key="postal_province_name"
+          title="Province"
+          render={(value) => <DateField value={value} />}
+          defaultSortOrder={getDefaultSortOrder("postal_province_name")}
+          sorter
         />
       </Table>
     </List>
   );
-};
+}

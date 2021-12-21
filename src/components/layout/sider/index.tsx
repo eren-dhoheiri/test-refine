@@ -73,6 +73,9 @@ export const Sider: React.FC = () => {
             </Menu.Item>
           );
         })}
+        <Menu.Item key="logout" icon={<Icons.LogoutOutlined />}>
+          Logout
+        </Menu.Item>
       </Menu>
     </AntdLayout.Sider>
   );

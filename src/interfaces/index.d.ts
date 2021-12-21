@@ -1,12 +1,8 @@
-export interface ICategory {
+export interface ILeads {
   id: string;
-  title: string;
-}
-export interface IPost {
-  id: string;
-  title: string;
-  content: string;
-  status: "published" | "draft" | "rejected";
-  createdAt: string;
-  category: ICategory;
+  name: string;
+  occupation: string;
+  product_interest: string;
+  phone1: string;
+  postal_province_name: string;
 }
